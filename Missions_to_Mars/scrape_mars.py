@@ -3,28 +3,38 @@ from bs4 import BeautifulSoup as bs
 import time
 import pandas as pd
 import requests
+import pymongo
 #Dependencies Splinter
 from splinter import Browser
 from webdriver_manager.chrome import ChromeDriverManager
 
+conn = 'mongodb://localhost:27017'
+client = pymongo.MongoClient(conn)
+
+db = client.mars
+collection = db.mars_data
+
 def init_browser():
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
+    executable_path = {'executable_path': 'chromedriver.exe'}
+    return Browser('chrome', **executable_path, headless=False)
     
 def scrape():
     browser = init_browser()
-    
+    collection.drop()
+
     ### NASA Mars News
     ## Visit Mars News URL
     url = 'https://mars.nasa.gov/news/page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
-    response = requests.get(url)
-    soup = bs(response.text, 'html.parser')
+    browser.visit(url)
+
+    html = browser.html
+    soup = bs(html, 'lxml')
     
     #Get the latest news headline
-    news_title = soup.find('div', class_='content_title').text.strip()
+    news_title = soup.find('div', class_='content_title').text
     
     #Get the latest news article description
-    news_p = soup.find('div', class_='rollover_description_inner').text.strip()
+    news_p = soup.find('div', class_='rollover_description_inner').text
     
 
     ### JPL Mars Space Images - Featured Image
@@ -38,7 +48,7 @@ def scrape():
     soup = bs(html_img, 'html.parser')
     
     #Get the url for the JPL featured image
-    featured_image_url = soup.find('img', class_="BaseImage object-contain")['data-src']
+    featured_img_url = soup.find('img', class_="BaseImage object-contain")['data-src']
 
     ### Mars Facts
     facts_url = "https://space-facts.com/mars/"
@@ -62,10 +72,10 @@ def scrape():
     soup = bs(hemi_html,'html.parser')
     
     #Create an empty list for the titles and urls
-    hemi_img_dict = []
     hemi_items = soup.find_all('div', class_="item")
-    
+    hemisphere_image_urls = []
     for i in hemi_items:
+        hemi_img_dict = {}
         #Store the title of each hemisphere
         hemi_name = i.find('h3').text
     
@@ -77,20 +87,21 @@ def scrape():
         soup = bs(partial_hemi_html, 'html.parser')
         
         full_hemi_url = usgs_url + soup.find('img', class_="wide-image")['src']
-        
-        #Append dictionary with results
-        hemi_img_dict.append({"title": hemi_name, 
-            "img_url": full_hemi_url})
-        
-    data = {
-        "News_Header": news_title,
-        "News_Description": news_p,
-        "JPL Image": featured_img_url,
-        "Mars_Facts": html_table,
-        "Hemispheres": hemi_img_dict
-    }
-        
-    #Quit browser session
+
+        hemi_img_dict['title'] = hemi_name
+        hemi_img_dict['image_url'] = full_hemi_url
+        hemisphere_image_urls.append(hemi_img_dict)
+
     browser.quit()
-    
-    return data
+
+    mars_data = {
+        "news_title": news_title,
+        "news_p": news_p,
+        "featured_img_url": featured_img_url,
+        "html_table": html_table,
+        "hemisphere_image_urls": hemisphere_image_urls
+    }
+
+    collection.insert(mars_data)
+
+    return mars_data

@@ -17,31 +17,31 @@
     <div class="container">
         <div class="row">
             <h2>Latest Mars News</h2>
-            <h3>{{ data.News_Header }}</h3>
-            <p>{{ data.News_Description }}</p>
+            <h3>{{ mars_data.news_title }}</h3>
+            <p>{{ mars_data.news_p }}</p>
         </div>
         <div class="row">
             <div class="col-sm-8">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h3>Featured Mars Image</h3>
-                        <img class="col-xs-12"src={{ data.featured_image_url }} alt="Featured Image">
+                        <img class="col-xs-12"src={{ mars_data.featured_img_url }} alt="Featured Image">
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div>
                     <h3>Mars Facts</h3>
-                    {{ data.html_table }}
+                    {{ mars_data.html_table }}
                 </div>
             </div>
         </div>
         <div class="row">
             <h3 align="center">Mars Hemispheres</h3>
-                {% for x in hemi_img_dict %}
+                {% for hemisphere in mars_data.hemisphere_image_urls %}
                 <figure class="col-xs-6">
-                <img  class ="figure-image col-xs-12" src="{{ data.hemi_img_dict }}" alt="Hemispheres">
-                    <figcaption><h3 align="center">{{ data.Hemispheres }}</h3></figcaption>  
+                <img  class ="figure-image col-xs-12" src="{{ hemisphere.full_hemi_url }}" alt="Hemispheres">
+                    <figcaption><h3 align="center">{{ hemisphere.hemi_name }}</h3></figcaption>  
                 </figure>
                 {% endfor %}
                 {% block body %}{% endblock %}
