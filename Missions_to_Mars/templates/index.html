@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mission To Mars</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">">
-    <link rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
     
 <body>
@@ -27,7 +26,7 @@
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12">
                 <h2>Mars Facts</h2>
-                <div class="table table-striped">
+                <div class="table table-striped" id=facts_table>
                     {{ mars_data.html_table | safe }}
                 </div>
             </div>
@@ -35,19 +34,20 @@
     <hr>
         <div class="row">
             <div class="col-md-8 offset-4">
-                <h2 class="align-items-center"><u>Mars Hemispheres</u></h2>
+                <h2 class="align-items-center">Mars Hemispheres</h2>
             </div>
         </div>
         <br>
         <div class="row">
             {% for hemisphere in mars_data.hemi_img_dict %}
-                <div class="col-lg-3 col-sm-12">
-                <br>
-                    <div>
-                        <img  class ="figure-image col-xs-12" width=100% src="{{ hemisphere.image_url }}">
-                    </div>
-                    <div>
-                        <h4> {{ hemisphere.title }} </h4>
+                <div class="col-lg-6 col-sm-12">
+                    <div class="card-deck">
+                        <div class="card">
+                            <img  class ="card-img-top" id="fig_img" src="{{ hemisphere.image_url }}">
+                            <div class="card-body">
+                                <h4 class="card-title"> {{ hemisphere.title }} </h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
