@@ -6,7 +6,6 @@ import requests
 import pymongo
 #Dependencies Splinter
 from splinter import Browser
-from webdriver_manager.chrome import ChromeDriverManager
 
 conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
@@ -15,12 +14,16 @@ db = client.mars
 collection = db.mars_data
 
 def init_browser():
-    executable_path = {'executable_path': 'chromedriver.exe'}
-    return Browser('chrome', **executable_path, headless=False)
+    executable_path = {'executable_path': 'C:/Users/kkirs/OneDrive/web-scraping-challenge/Missions_to_Mars/chromedriver.exe'}
+    browser = Browser('chrome', **executable_path, headless=False)
+    return browser
     
 def scrape():
     browser = init_browser()
+
     collection.drop()
+
+    mars_data = {}
 
     ### ---------------------------------------NASA Mars News---------------------------------------- ----###
     ## Visit Mars News URL
@@ -73,7 +76,7 @@ def scrape():
     time.sleep(2)
 
     html = browser.html
-    soup = BeautifulSoup(html,'html.parser')
+    soup = bs(html,'html.parser')
     
     #Create a dictionary to hold hemisphere name and url data
     hemisphere_image_urls = []

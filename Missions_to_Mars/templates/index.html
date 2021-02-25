@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mission To Mars</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">">
     <link rel="stylesheet">
 </head>
     
@@ -21,17 +21,13 @@
             <p>{{ mars_data.news_p }}</p>
         </div>
         <div class="row">
-            <div class="col-sm-8">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h3>Featured Mars Image</h3>
-                        <img class="col-xs-12"src={{ mars_data.featured_img_url }} alt="Featured Image">
-                    </div>
-                </div>
+            <div class="col-md-8 col-sm-12">
+                <h3><b>Featured Mars Image</b></h3>
+                <img src={{ mars_data.featured_img_url }} height=auto width=700px>
             </div>
-            <div class="col-sm-4">
-                <div class="card">
+            <div class="col-lg-4 col-md-12 col-sm-12">
                 <h2>Mars Facts</h2>
+                <div class="table table-striped">
                     {{ mars_data.html_table | safe }}
                 </div>
             </div>
@@ -45,7 +41,7 @@
         <br>
         <div class="row">
             {% for hemisphere in mars_data.hemi_img_dict %}
-                <div class="col-lg-6 col-sm-12">
+                <div class="col-lg-3 col-sm-12">
                 <br>
                     <div>
                         <img  class ="figure-image col-xs-12" width=100% src="{{ hemisphere.image_url }}">
@@ -58,5 +54,8 @@
             {% block body %}{% endblock %}
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
