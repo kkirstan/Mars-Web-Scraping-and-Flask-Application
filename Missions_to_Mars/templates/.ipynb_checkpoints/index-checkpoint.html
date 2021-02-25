@@ -1,54 +1,53 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Mission To Mars</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mission To Mars</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet">
+</head>
     
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <link rel="stylesheet" href="style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="jumbotron text-center">
-            <h1>Mission to Mars</h1>
-            <a href="/scrape" class="btn btn-primary" role="button">Scrape New Data</a>
+<body>
+    <div class="jumbotron text-center">
+        <h1>Mission to Mars</h1>
+        <p><a class="btn btn-primary" href="/scrape" role="button">Scrape New Data</a><p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h2>Latest Mars News</h2>
+            <h3>{{ mars_data.news_title }}</h3>
+            <p>{{ mars_data.news_p }}</p>
         </div>
-        <div class="container">
-            <div class="row">
-                <h2>Latest Mars News</h2>
-                <h3>{{ data.News_Header }}</h3>
-                <p>{{ data.News_Description }}</p>
-            </div>
-            <div class="row">
-                    <div class="col-sm-8">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <h3>Featured Mars Image</h3>
-                                <img class="col-xs-12"src={{ data.JPL_Image }} alt="fiu">
-                            </div>
-                        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>Featured Mars Image</h3>
+                        <img class="col-xs-12"src={{ mars_data.featured_img_url }} alt="Featured Image">
                     </div>
-                    <div class="col-sm-4">
-                        <div>
-                            <h3>Mars Facts</h3>
-                            {{ data.Mars_Facts }}
-                        </div>
-                        </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div>
+                    <h3>Mars Facts</h3>
+                    <div class="container">
+                        {{ mars_data.html_table }}
                     </div>
+                </div>
             </div>
-            <div class="row">
-                <h3 align="center">Mars Hemispheres</h3>
-                    {% for hemisphere in data.Hemispheres %}
-                    <figure class="col-xs-6">
-                        <img  class ="figure-image col-xs-12" src={{hemi_img_dict.img_url}} alt="">
-                        <figcaption><h3 align="center">{{ data.Hemispheres }}</h3> </figcaption>  
-                    </figure>
-                    {% endfor %}
-                    {% block body %}{% endblock %}
-            </div>
-        </div>  
-    </body>
+        </div>
+        <div class="row">
+            <h3 align="center">Mars Hemispheres</h3>
+                {% for hemisphere in mars_data.hemisphere_image_urls %}
+                <figure class="col-xs-6">
+                <img  class ="figure-image col-xs-12" src="{{ hemisphere.full_hemi_url }}" alt="Hemispheres">
+                    <figcaption><h3 align="center">{{ hemisphere.hemi_name }}</h3></figcaption>  
+                </figure>
+                {% endfor %}
+                {% block body %}{% endblock %}
+        </div>
+    </div>
+</body>
 </html>

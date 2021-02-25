@@ -30,21 +30,32 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <div>
-                    <h3>Mars Facts</h3>
-                    {{ mars_data.html_table }}
+                <div class="card">
+                <h2>Mars Facts</h2>
+                    {{ mars_data.html_table | safe }}
                 </div>
             </div>
         </div>
+    <hr>
         <div class="row">
-            <h3 align="center">Mars Hemispheres</h3>
-                {% for hemisphere in mars_data.hemisphere_image_urls %}
-                <figure class="col-xs-6">
-                <img  class ="figure-image col-xs-12" src="{{ hemisphere.full_hemi_url }}" alt="Hemispheres">
-                    <figcaption><h3 align="center">{{ hemisphere.hemi_name }}</h3></figcaption>  
-                </figure>
-                {% endfor %}
-                {% block body %}{% endblock %}
+            <div class="col-md-8 offset-4">
+                <h2 class="align-items-center"><u>Mars Hemispheres</u></h2>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            {% for hemisphere in mars_data.hemi_img_dict %}
+                <div class="col-lg-6 col-sm-12">
+                <br>
+                    <div>
+                        <img  class ="figure-image col-xs-12" width=100% src="{{ hemisphere.image_url }}">
+                    </div>
+                    <div>
+                        <h4> {{ hemisphere.title }} </h4>
+                    </div>
+                </div>
+            {% endfor %}
+            {% block body %}{% endblock %}
         </div>
     </div>
 </body>
